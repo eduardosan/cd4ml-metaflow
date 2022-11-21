@@ -23,11 +23,6 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-# Install graphs support
-#RUN pip install --no-cache-dir -e ".[graphs]"
-
-#CMD [ "python", "./setup.py" , "develop" ]
-
 FROM base as testing
 # Need to clean these files in order for the tests to work
 RUN find . -name '*.py[odc]' -type f -delete
@@ -36,23 +31,6 @@ RUN rm -rf *.egg-info .cache .eggs build dist dists
 
 # Run testing dependencies for the container
 RUN pip install --no-cache-dir -e ".[testing]"
-
-FROM base as jupyter
-ARG USERNAME=user-name-goes-here
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-
-# Create the user
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
-
-ENV PORT=8888
-ENV USERNAME=$USERNAME
-
-RUN pip install jupyterlab
-
-USER $USERNAME
-ENTRYPOINT jupyter lab --app_dir=/usr/src/app --no-browser --port=${PORT} --allow-root --ip=0.0.0.0
 
 FROM base as docs
 

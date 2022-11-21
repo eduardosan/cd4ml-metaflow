@@ -4,8 +4,7 @@ COLOR_RESET = \033[0m
 COLOR_GREEN = \033[32m
 COLOR_YELLOW = \033[33m
 PROJECT_NAME = `basename $(PWD)`
-USER_UID = 1000
-USER_GID = 1000
+USER_UID = `id -u`
 
 VERSION = `cat VERSION`
 PORT = 8888
@@ -42,11 +41,13 @@ test: setup
 ## Start a jupyter notebook instance with the project
 jupyter:
 	echo "Building version $(VERSION)"
-	docker build --build-arg USERNAME=$(USER) \
-		--build-arg USER_UID=$(USER_UID) \
-		--build-arg USER_GID=$(USER_GID) \
- 		--target jupyter . -t $(IMAGE)
-	docker run -it --rm -p $(PORT):8888 -e PORT=$(PORT) -v $(PWD):/usr/src/app $(IMAGE)
+	docker run -it --rm \
+		-p $(PORT):8888 \
+		--user $(USER_UID) --group-add users \
+		-e USERNAME="jovyan" \
+        -e TZ=America/Sao_Paulo \
+		-v $(PWD):/home/jovyan \
+		jupyter/base-notebook
 
 ## Generate a new release and tag
 release:
