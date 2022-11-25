@@ -130,13 +130,17 @@ dmypy.json
 .pyre/
 
 .idea
-/notebooks/.metaflow/
-/notebooks/requirements.txt
-/notebooks/data/
+.metaflow/
+/data/
 /.ipython/
 /.jupyter/
 /.local/
-
+.DS_Store
+.bash_history
+.cookiecutter_replay/
+.cookiecutters/
+.metaflow/
+.wget-hsts
 
 # nltk
 /nltk_data/
