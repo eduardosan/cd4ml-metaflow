@@ -1,6 +1,0 @@
-
-metaflow==2.7.12
-feedparser==6.0.10
-pandas==1.5.0
-openpyxl==3.0.10
-nltk==3.7

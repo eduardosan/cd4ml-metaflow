@@ -144,3 +144,4 @@ dmypy.json
 
 # nltk
 /nltk_data/
+/.config/
